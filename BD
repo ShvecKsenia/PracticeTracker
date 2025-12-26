@@ -1,0 +1,51 @@
+-- Создание индексов для улучшения производительности
+CREATE INDEX idx_applications_student_id ON Applications(student_id);
+CREATE INDEX idx_applications_vacancy_id ON Applications(vacancy_id);
+CREATE INDEX idx_applications_status ON Applications(application_status);
+CREATE INDEX idx_journal_entries_journal_id ON JournalEntries(journal_id);
+CREATE INDEX idx_journal_entries_date ON JournalEntries(entry_date);
+CREATE INDEX idx_vacancies_company_id ON InternshipVacancies(company_id);
+CREATE INDEX idx_vacancies_active ON InternshipVacancies(is_active);
+CREATE INDEX idx_students_group_id ON Students(group_id);
+
+-- Вставка тестовых данных
+INSERT INTO Specialties (code, name, description) VALUES 
+('09.02.07', 'Информационные системы и программирование', 'Разработка программного обеспечения и администрирование информационных систем'),
+('38.02.01', 'Экономика и бухгалтерский учет', 'Экономическое образование и бухгалтерский учет'),
+('15.02.09', 'Аддитивные технологии', 'Технологии 3D-печати и прототипирования');
+
+INSERT INTO Groups (group_name, specialty_id, course) VALUES 
+('ИСП-421', 1, 4),
+('ЭБУ-319', 2, 3),
+('АТ-222', 3, 2);
+
+INSERT INTO Users (email, password_hash, first_name, last_name, patronymic, user_type) VALUES 
+-- Администратор
+('admin@college.ru', 'hashed_password_1', 'Алексей', 'Иванов', 'Петрович', 'admin'),
+-- Преподаватели
+('petrov.ss@college.ru', 'hashed_password_2', 'Сергей', 'Петров', 'Сергеевич', 'teacher'),
+('sidorova.ma@college.ru', 'hashed_password_3', 'Мария', 'Сидорова', 'Александровна', 'teacher'),
+-- Студенты
+('student1@edu.ru', 'hashed_password_4', 'Иван', 'Козлов', 'Дмитриевич', 'student'),
+('student2@edu.ru', 'hashed_password_5', 'Елена', 'Смирнова', 'Владимировна', 'student'),
+('student3@edu.ru', 'hashed_password_6', 'Дмитрий', 'Попов', 'Андреевич', 'student');
+
+INSERT INTO Teachers (teacher_id, academic_degree, academic_title) VALUES 
+(2, 'Кандидат технических наук', 'Доцент'),
+(3, 'Магистр', 'Старший преподаватель');
+
+INSERT INTO Students (student_id, group_id, record_book_number) VALUES 
+(4, 1, 'ИСП-2023-001'),
+(5, 1, 'ИСП-2023-002'),
+(6, 2, 'ЭБУ-2023-001');
+
+INSERT INTO Companies (company_name, description, website, contact_email, contact_phone, address, is_approved) VALUES 
+('ООО "ТехноСофт"', 'IT-компания, специализирующаяся на веб-разработке', 'https://technosoft.ru', 'hr@technosoft.ru', '+7-495-123-45-67', 'Москва, ул. Ленина, 25', true),
+('АО "ПромБанк"', 'Крупный региональный банк', 'https://prombank.ru', 'internship@prombank.ru', '+7-495-765-43-21', 'Москва, пр. Мира, 10', true),
+('ООО "ИнновацииБудущего"', 'Стартап в области аддитивных технологий', 'https://future-innovations.ru', 'info@future-innovations.ru', '+7-495-555-55-55', 'Москва, ул. Советская, 15', false);
+
+INSERT INTO InternshipVacancies (company_id, title, description, requirements, created_by_teacher_id) VALUES 
+(1, 'Стажер-программист Python', 'Разработка веб-приложений на Django и Flask', 'Знание Python, основ баз данных, HTML/CSS', 2),
+(1, 'Стажер-фронтенд разработчик', 'Разработка пользовательских интерфейсов на React', 'Знание JavaScript, React, HTML5/CSS3', 2),
+(2, 'Стажер-бухгалтер', 'Помощь в ведении бухгалтерского учета', 'Знание основ бухгалтерии, внимательность', 3),
+(3, 'Стажер-инженер 3D-печати', 'Работа с 3D-принтерами и создание моделей', 'Знание CAD-программ, интерес к 3D-печати', 2);
